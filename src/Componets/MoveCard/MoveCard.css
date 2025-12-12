@@ -1,0 +1,281 @@
+/* Movie Card Styling */
+.movie-card {
+  background: linear-gradient(
+    135deg,
+    rgba(6, 18, 38, 0.9) 0%,
+    rgba(8, 15, 42, 0.85) 100%
+  );
+  border: 1px solid rgba(0, 212, 255, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  box-shadow: 0 4px 16px rgba(0, 212, 255, 0.08);
+}
+
+.movie-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 32px rgba(0, 212, 255, 0.2);
+  border-color: rgba(0, 212, 255, 0.2);
+}
+
+/* Poster Section */
+.card-poster {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.poster-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.movie-card:hover .poster-image {
+  transform: scale(1.08);
+}
+
+/* Card Overlay */
+.card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(4, 18, 38, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.movie-card:hover .card-overlay {
+  opacity: 1;
+}
+
+.overlay-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.btn-watchlist {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: #00d4ff;
+  font-size: 1.15rem;
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.18s ease, background 0.18s ease, color 0.18s ease;
+  box-shadow: 0 6px 18px rgba(0, 212, 255, 0.06);
+}
+
+.btn-watchlist:hover {
+  transform: scale(1.08);
+  background: linear-gradient(90deg, #00b4d8, #00d4ff);
+  color: #021223;
+}
+
+.btn-play {
+  background: linear-gradient(90deg, #00b4d8, #00d4ff);
+  border: none;
+  color: #021223;
+  font-size: 2rem;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 20px rgba(0, 212, 255, 0.4);
+}
+
+.btn-play:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 28px rgba(0, 212, 255, 0.5);
+}
+
+/* Content Section */
+.card-content {
+  padding: 0.8rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.3rem;
+}
+
+.card-title {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.25;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-meta {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.release-date {
+  font-size: 0.75rem;
+  color: #00d4ff;
+  display: flex;
+  align-items: center;
+}
+
+.card-overview {
+  font-size: 0.775rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0.25rem 0;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+}
+
+/* Rating Section */
+.card-rating {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.25rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid rgba(0, 212, 255, 0.12);
+  gap: 0.5rem;
+}
+
+.rating-box {
+  display: flex;
+  align-items: baseline;
+  gap: 0.15rem;
+}
+
+.rating-value {
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding: 0.2rem 0.4rem;
+  border-radius: 5px;
+}
+
+.rating-value.excellent {
+  color: #fff;
+  /* background: rgba(34, 197, 94, 0.2); */
+}
+
+.rating-value.good {
+  color: #fff;
+  /* background: rgba(59, 130, 246, 0.2); */
+}
+
+.rating-value.average {
+  color: #fff;
+  background: rgba(251, 146, 60, 0.2);
+}
+
+.rating-value.poor {
+  color: #fff;
+  background: rgba(239, 68, 68, 0.2);
+}
+
+.rating-max {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.vote-count {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.7);
+  display: flex;
+  align-items: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .movie-card {
+    border-radius: 10px;
+  }
+
+  .card-poster {
+    aspect-ratio: 2 / 3;
+  }
+
+  .card-content {
+    padding: 0.8rem;
+  }
+
+  .card-title {
+    font-size: 0.9rem;
+  }
+
+  .card-overview {
+    font-size: 0.8rem;
+  }
+
+  .btn-play {
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-poster {
+    aspect-ratio: 2 / 3;
+  }
+
+  .card-content {
+    padding: 0.7rem;
+  }
+
+  .card-title {
+    font-size: 0.85rem;
+  }
+
+  .card-overview {
+    font-size: 0.75rem;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+
+  .release-date {
+    font-size: 0.75rem;
+  }
+
+  .vote-count {
+    font-size: 0.75rem;
+  }
+
+  .btn-play {
+    width: 45px;
+    height: 45px;
+    font-size: 1.2rem;
+  }
+}

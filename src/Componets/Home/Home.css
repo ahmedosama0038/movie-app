@@ -1,0 +1,65 @@
+/* Home Page Styling - matches Move App theme */
+
+.home-section {
+  background: linear-gradient(135deg, #041226 0%, #0b0f2a 50%, #120826 100%);
+  min-height: calc(100vh - 60px);
+  padding: 2rem 0;
+}
+
+.home-container {
+  padding: 1rem;
+}
+
+.movies-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: flex-start;
+}
+
+/* Responsive grid layout */
+@media (min-width: 1200px) {
+  .movies-grid > div {
+    flex: 0 0 calc(25% - 1.5rem);
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  .movies-grid > div {
+    flex: 0 0 calc(33.333% - 1.5rem);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .movies-grid > div {
+    flex: 0 0 calc(50% - 1.5rem);
+  }
+}
+
+@media (max-width: 767px) {
+  .home-section {
+    padding: 1.5rem 0;
+  }
+
+  .home-container {
+    padding: 0.5rem;
+  }
+
+  .movies-grid {
+    gap: 1rem;
+  }
+
+  .movies-grid > div {
+    flex: 0 0 calc(50% - 0.5rem);
+  }
+}
+
+@media (max-width: 480px) {
+  .movies-grid > div {
+    flex: 0 0 100%;
+  }
+
+  .movies-grid {
+    gap: 0.75rem;
+  }
+}
