@@ -4,84 +4,97 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+
 import { useFormik } from "formik";
-import * as yup from 'yup'
-const viledpasswrd=  /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$ /
-const viledPhone = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$ /
- const singupSchema = yup.object({
-  name: yup.string().required().min(3, ).max(15, ),
-  email: yup.string().required().email(),
-  password: yup.string().required().matches(viledpasswrd,  ),
-  rePassword: yup.string().required().oneOf([yup.ref('password')]),
-  phone: yup.string().required().matches(viledPhone)
- })
-  
- 
+import * as yup from "yup";
 
+const validPassword =
+  /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[#?!@$%^&*-]).{8,}$/;
 
+const validPhone = /^[+]?[0-9]{10,15}$/;
+
+export const signupSchema = yup.object({
+  name: yup
+    .string()
+    .required("Name is required")
+    .min(3, "Name must be at least 3 characters")
+    .max(15, "Name must be less than 15 characters"),
+
+  email: yup
+    .string()
+    .required("Email is required")
+    .email("Invalid email address"),
+
+  password: yup
+    .string()
+    .required("Password is required")
+    .matches(
+      validPassword,
+      "Password must be at least 8 characters, include uppercase, lowercase, number and symbol"
+    ),
+
+  rePassword: yup
+    .string()
+    .required("Confirm password is required")
+    .oneOf([yup.ref("password")], "Passwords do not match"),
+
+  phone: yup
+    .string()
+    .required("Phone number is required")
+    .matches(validPhone, "Invalid phone number"),
+});
 
 export default function Signup() {
-    
-  // const [name, setName] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
-  // const [phone, setPhone] = useState("");
-  // const [rePassword, setRePassword] = useState("");
   
-function  handalSubmit(values) {
-  
-  console.log(values);
-  
-}
+  function handalSubmit(values) {
+    console.log(values);
+  }
 
- const formik =   useFormik({
-     initialValues:{
-      
-      name :'',
-      email: '',
-      password : '',
-      rePassword: '',
-      phone : ''
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      email: "",
+      password: "",
+      rePassword: "",
+      phone: "",
+    },
+    validationSchema: singupSchema,
 
-     }, 
-     validationSchema: singupSchema,
-      
-    onSubmit : handalSubmit
-  })
-console.log(formik);
+    onSubmit: handalSubmit,
+  });
+  console.log(formik);
 
-//   const  navigate =  useNavigate()
-//   async function getMovie(e) {
-//     e.preventDefault();
+  //   const  navigate =  useNavigate()
+  //   async function getMovie(e) {
+  //     e.preventDefault();
 
-//     const values = {
-//       name,
-//       email,
-//       password,
-//       rePassword,
-//       phone,
-//     };
+  //     const values = {
+  //       name,
+  //       email,
+  //       password,
+  //       rePassword,
+  //       phone,
+  //     };
 
-//     try {
-//       const res = await axios.post(
-//         "https://ecommerce.routemisr.com/api/v1/auth/signup",
-//         values
-//       );
+  //     try {
+  //       const res = await axios.post(
+  //         "https://ecommerce.routemisr.com/api/v1/auth/signup",
+  //         values
+  //       );
 
-//       console.log("Response:", res.data);
-//       if(res.data.message === "success"){
-//   toast.success("Account created successfully!");
-//   setTimeout(() => {
-//     navigate('/login')
-//   }, 3000);
-// }
+  //       console.log("Response:", res.data);
+  //       if(res.data.message === "success"){
+  //   toast.success("Account created successfully!");
+  //   setTimeout(() => {
+  //     navigate('/login')
+  //   }, 3000);
+  // }
 
+  //     } catch (error) {
+  //       console.log("Error:", error.response?.data);
 
-//     } catch (error) {
-//       console.log("Error:", error.response?.data);
-    
-//     }
-//   }
+  //     }
+  //   }
 
   return (
     <div className="signup-page">
@@ -108,9 +121,15 @@ console.log(formik);
                 id="name"
                 name="name"
                 placeholder="Enter your full name"
-                value={ formik.values.name}
+                value={formik.values.name}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
               />
+              {formik.errors.name && formik.touched.name ? (
+                <ErrorMessage />
+              ) : (
+                ""
+              )}
             </div>
 
             {/* Email Input */}
@@ -126,7 +145,13 @@ console.log(formik);
                 placeholder="Enter your email"
                 value={formik.values.email}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
               />
+              {formik.errors.email && formik.touched.email ? (
+                <ErrorMessage />
+              ) : (
+                ""
+              )}
             </div>
 
             {/* Password */}
@@ -142,7 +167,13 @@ console.log(formik);
                 placeholder="Create a strong password"
                 value={formik.values.password}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
               />
+              {formik.errors.password && formik.touched.password ? (
+                <ErrorMessage />
+              ) : (
+                ""
+              )}
             </div>
 
             {/* Confirm Password */}
@@ -158,7 +189,13 @@ console.log(formik);
                 placeholder="Confirm your password"
                 value={formik.values.rePassword}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
               />
+              {formik.errors.rePassword && formik.touched.rePassword ? (
+                <ErrorMessage />
+              ) : (
+                ""
+              )}
             </div>
 
             {/* Phone */}
@@ -174,7 +211,13 @@ console.log(formik);
                 placeholder="Enter your phone number"
                 value={formik.values.phone}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
               />
+              {formik.errors.phone && formik.touched.phone ? (
+                <ErrorMessage />
+              ) : (
+                ""
+              )}
             </div>
 
             <button type="submit" className="btn signup-btn w-100 mb-3">
