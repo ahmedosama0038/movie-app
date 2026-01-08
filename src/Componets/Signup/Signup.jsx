@@ -4,49 +4,84 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
-
+import { useFormik } from "formik";
+import * as yup from 'yup'
+const viledpasswrd=  /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$ /
+const viledPhone = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$ /
+ const singupSchema = yup.object({
+  name: yup.string().required().min(3, ).max(15, ),
+  email: yup.string().required().email(),
+  password: yup.string().required().matches(viledpasswrd,  ),
+  rePassword: yup.string().required().oneOf([yup.ref('password')]),
+  phone: yup.string().required().matches(viledPhone)
+ })
+  
+ 
 
 
 
 export default function Signup() {
     
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [phone, setPhone] = useState("");
-  const [rePassword, setRePassword] = useState("");
-  const  navigate =  useNavigate()
-  async function handleSubmit(e) {
-    e.preventDefault();
-
-    const values = {
-      name,
-      email,
-      password,
-      rePassword,
-      phone,
-    };
-
-    try {
-      const res = await axios.post(
-        "https://ecommerce.routemisr.com/api/v1/auth/signup",
-        values
-      );
-
-      console.log("Response:", res.data);
-      if(res.data.message === "success"){
-  toast.success("Account created successfully!");
-  setTimeout(() => {
-    navigate('/login')
-  }, 3000);
+  // const [name, setName] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
+  // const [phone, setPhone] = useState("");
+  // const [rePassword, setRePassword] = useState("");
+  
+function  handalSubmit(values) {
+  
+  console.log(values);
+  
 }
 
+ const formik =   useFormik({
+     initialValues:{
+      
+      name :'',
+      email: '',
+      password : '',
+      rePassword: '',
+      phone : ''
 
-    } catch (error) {
-      console.log("Error:", error.response?.data);
+     }, 
+     validationSchema: singupSchema,
+      
+    onSubmit : handalSubmit
+  })
+console.log(formik);
+
+//   const  navigate =  useNavigate()
+//   async function getMovie(e) {
+//     e.preventDefault();
+
+//     const values = {
+//       name,
+//       email,
+//       password,
+//       rePassword,
+//       phone,
+//     };
+
+//     try {
+//       const res = await axios.post(
+//         "https://ecommerce.routemisr.com/api/v1/auth/signup",
+//         values
+//       );
+
+//       console.log("Response:", res.data);
+//       if(res.data.message === "success"){
+//   toast.success("Account created successfully!");
+//   setTimeout(() => {
+//     navigate('/login')
+//   }, 3000);
+// }
+
+
+//     } catch (error) {
+//       console.log("Error:", error.response?.data);
     
-    }
-  }
+//     }
+//   }
 
   return (
     <div className="signup-page">
@@ -61,7 +96,7 @@ export default function Signup() {
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="signup-form">
+          <form onSubmit={formik.handleSubmit} className="signup-form">
             {/* Name Input */}
             <div className="form-group mb-3">
               <label htmlFor="name" className="form-label">
@@ -71,9 +106,10 @@ export default function Signup() {
                 type="text"
                 className="form-control signup-input"
                 id="name"
+                name="name"
                 placeholder="Enter your full name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={ formik.values.name}
+                onChange={formik.handleChange}
               />
             </div>
 
@@ -86,9 +122,10 @@ export default function Signup() {
                 type="email"
                 className="form-control signup-input"
                 id="email"
+                name="email"
                 placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={formik.values.email}
+                onChange={formik.handleChange}
               />
             </div>
 
@@ -101,9 +138,10 @@ export default function Signup() {
                 type="password"
                 className="form-control signup-input"
                 id="password"
+                name="password"
                 placeholder="Create a strong password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={formik.values.password}
+                onChange={formik.handleChange}
               />
             </div>
 
@@ -116,9 +154,10 @@ export default function Signup() {
                 type="password"
                 className="form-control signup-input"
                 id="confirm"
+                name="rePassword"
                 placeholder="Confirm your password"
-                value={rePassword}
-                onChange={(e) => setRePassword(e.target.value)}
+                value={formik.values.rePassword}
+                onChange={formik.handleChange}
               />
             </div>
 
@@ -131,9 +170,10 @@ export default function Signup() {
                 type="tel"
                 className="form-control signup-input"
                 id="phone"
+                name="phone"
                 placeholder="Enter your phone number"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
+                value={formik.values.phone}
+                onChange={formik.handleChange}
               />
             </div>
 
