@@ -7,8 +7,9 @@ import { useNavigate } from "react-router-dom";
 
 import { useFormik } from "formik";
 import * as yup from "yup";
-import ErrorMessage from "../Error/ErrorMessage";
+
 import FormInput from "../Ui/FormInput/FormInput";
+import ErrorMessage from "../Error/ErrorMessage";
 
 const validPassword =
   /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[#?!@$%^&*-]).{8,}$/;
@@ -47,9 +48,7 @@ const signupSchema = yup.object({
 });
 
 export default function Signup() {
-  // function handalSubmit(values) {
-  //   console.log(values);
-  // }
+  const [ApiErr, setApiErr] = useState(null);
 
   const formik = useFormik({
     initialValues: {
@@ -82,6 +81,7 @@ export default function Signup() {
       }
     } catch (error) {
       console.log("Error:", error.response?.data);
+      setApiErr(error.response.data.error)
     }
   }
 
@@ -134,17 +134,17 @@ export default function Signup() {
             {/* Password */}
 
             <FormInput
-              label={"Password"}
-              startIcon={"bi bi-lock me-2"}
-              type={"Password"}
-              placeholder={"Create a strong password"}
+              label="Password"
+              startIcon="bi bi-lock me-2"
+              type="password"
+              placeholder="Create a strong password"
               value={formik.values.password}
               touched={formik.touched.password}
               errors={formik.errors.password}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              name={"Password"}
-              id={"Password"}
+              name="password"
+              id="password"
             />
 
             {/* Confirm Password */}
@@ -178,7 +178,7 @@ export default function Signup() {
               name={"phone"}
               id={"phone"}
             />
-
+{  ApiErr&& <ErrorMessage message={ApiErr}/>}
             <button
               type="submit"
               disabled={
