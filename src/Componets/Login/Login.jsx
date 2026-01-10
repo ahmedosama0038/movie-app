@@ -1,4 +1,5 @@
-import "./Signin.css";
+import "../Signup/Signup.css";
+import "./Login.css";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -9,6 +10,7 @@ import * as yup from "yup";
 
 import FormInput from "../Ui/FormInput/FormInput";
 import ErrorMessage from "../Error/ErrorMessage";
+import { useState } from 'react';
 
 const validPassword =
   /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[#?!@$%^&*-]).{8,}$/;
@@ -28,8 +30,9 @@ const signinSchema = yup.object({
     ),
 });
 
-export default function Signup() {
-  const [ApiErr, setApiErr] = useState(null);
+export default function Login() {
+  
+const [ApiErrLogin, setApiErrLogin] = useState(null);
 
   const formik = useFormik({
     initialValues: {
@@ -54,17 +57,18 @@ export default function Signup() {
       if (res.data.message === "success") {
         toast.success("Account created successfully!");
         setTimeout(() => {
-          navigate("/login");
+          navigate("/");
         }, 3000);
       }
     } catch (error) {
       console.log("Error:", error.response?.data);
+      setApiErrLogin(error.response?.data?.message)
     }
   }
 
   return (
-    <div className="signin-page">
-      <div className="container signin-container">
+    <div className="signup-page">
+      <div className="container signup-container">
         <div className="signup-box">
           <div className="signup-header">
             <h1 className="signup-title">
@@ -135,7 +139,7 @@ export default function Signup() {
                 </>
               )}
             </button>
-            {ApiErr && <ErrorMessage message={ApiErr} />}
+          { ApiErrLogin&& <ErrorMessage message={ApiErrLogin}/>}
             <p className="text-center signup-footer">
               Don't have an account?{" "}
               <a href="/login" className="signup-link">
