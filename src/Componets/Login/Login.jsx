@@ -3,7 +3,7 @@ import "./Login.css";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -145,9 +145,9 @@ const {token , settoken}  =  useContext(AuthContext)
             {ApiErrLogin && <ErrorMessage message={ApiErrLogin} />}
             <p className="text-center signup-footer">
               Don't have an account?{" "}
-              <a href="/signup" className="signup-link">
+              <Link to="/signup" className="signup-link">
                 Login here
-              </a>
+              </Link>
             </p>
           </form>
         </div>

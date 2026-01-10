@@ -3,7 +3,7 @@ import "./Signup.css";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -201,9 +201,9 @@ export default function Signup() {
 {  ApiErr&& <ErrorMessage message={ApiErr}/>}
             <p className="text-center signup-footer">
               Already have an account?{" "}
-              <a href="/login" className="signup-link">
+              <Link to="/login" className="signup-link">
                 Login here
-              </a>
+              </Link>
             </p>
           </form>
         </div>
