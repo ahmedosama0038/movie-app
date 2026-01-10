@@ -3,14 +3,14 @@ import { AuthContext } from "../Context/AuthContext"
 import { Navigate } from "react-router-dom"
 
 
-export default function ProdectedRout(children) {
+export default function ProdectedRout({children}) {
  const { token}  = useContext(AuthContext)
 
 if(token){
  return children
 
 }else{
-    <Navigate to={'login'}/>
+   return <Navigate to={'login'}/>
 }
 
  
