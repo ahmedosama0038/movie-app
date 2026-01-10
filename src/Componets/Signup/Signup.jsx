@@ -81,7 +81,7 @@ export default function Signup() {
       }
     } catch (error) {
       console.log("Error:", error.response?.data);
-      setApiErr(error.response.data.error)
+      setApiErr(error.response?.data?.message)
     }
   }
 
@@ -178,7 +178,7 @@ export default function Signup() {
               name={"phone"}
               id={"phone"}
             />
-{  ApiErr&& <ErrorMessage message={ApiErr}/>}
+
             <button
               type="submit"
               disabled={
@@ -198,7 +198,7 @@ export default function Signup() {
                 </>
               )}
             </button>
-
+{  ApiErr&& <ErrorMessage message={ApiErr}/>}
             <p className="text-center signup-footer">
               Already have an account?{" "}
               <a href="/login" className="signup-link">
