@@ -7,13 +7,15 @@ import { useNavigate } from "react-router-dom";
 
 import { useFormik } from "formik";
 import * as yup from "yup";
+import ErrorMessage from "../Error/ErrorMessage";
+import FormInput from "../Ui/FormInput/FormInput";
 
 const validPassword =
   /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[#?!@$%^&*-]).{8,}$/;
 
 const validPhone = /^[+]?[0-9]{10,15}$/;
 
-export const signupSchema = yup.object({
+const signupSchema = yup.object({
   name: yup
     .string()
     .required("Name is required")
@@ -45,10 +47,9 @@ export const signupSchema = yup.object({
 });
 
 export default function Signup() {
-  
-  function handalSubmit(values) {
-    console.log(values);
-  }
+  // function handalSubmit(values) {
+  //   console.log(values);
+  // }
 
   const formik = useFormik({
     initialValues: {
@@ -58,43 +59,31 @@ export default function Signup() {
       rePassword: "",
       phone: "",
     },
-    validationSchema: singupSchema,
+    validationSchema: signupSchema,
 
     onSubmit: handalSubmit,
   });
   console.log(formik);
 
-  //   const  navigate =  useNavigate()
-  //   async function getMovie(e) {
-  //     e.preventDefault();
+  const navigate = useNavigate();
+  async function handalSubmit(values) {
+    try {
+      const res = await axios.post(
+        "https://ecommerce.routemisr.com/api/v1/auth/signup",
+        values
+      );
 
-  //     const values = {
-  //       name,
-  //       email,
-  //       password,
-  //       rePassword,
-  //       phone,
-  //     };
-
-  //     try {
-  //       const res = await axios.post(
-  //         "https://ecommerce.routemisr.com/api/v1/auth/signup",
-  //         values
-  //       );
-
-  //       console.log("Response:", res.data);
-  //       if(res.data.message === "success"){
-  //   toast.success("Account created successfully!");
-  //   setTimeout(() => {
-  //     navigate('/login')
-  //   }, 3000);
-  // }
-
-  //     } catch (error) {
-  //       console.log("Error:", error.response?.data);
-
-  //     }
-  //   }
+      console.log("Response:", res.data);
+      if (res.data.message === "success") {
+        toast.success("Account created successfully!");
+        setTimeout(() => {
+          navigate("/login");
+        }, 3000);
+      }
+    } catch (error) {
+      console.log("Error:", error.response?.data);
+    }
+  }
 
   return (
     <div className="signup-page">
@@ -111,117 +100,103 @@ export default function Signup() {
 
           <form onSubmit={formik.handleSubmit} className="signup-form">
             {/* Name Input */}
-            <div className="form-group mb-3">
-              <label htmlFor="name" className="form-label">
-                <i className="bi bi-person me-2"></i>Full Name
-              </label>
-              <input
-                type="text"
-                className="form-control signup-input"
-                id="name"
-                name="name"
-                placeholder="Enter your full name"
-                value={formik.values.name}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-              {formik.errors.name && formik.touched.name ? (
-                <ErrorMessage />
-              ) : (
-                ""
-              )}
-            </div>
+
+            <FormInput
+              label={"Full Name"}
+              startIcon={"bi bi-person me-2"}
+              type={"text"}
+              placeholder={"Enter your full name"}
+              value={formik.values.name}
+              touched={formik.touched.name}
+              errors={formik.errors.name}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              name={"name"}
+              id={"name"}
+            />
 
             {/* Email Input */}
-            <div className="form-group mb-3">
-              <label htmlFor="email" className="form-label">
-                <i className="bi bi-envelope me-2"></i>Email Address
-              </label>
-              <input
-                type="email"
-                className="form-control signup-input"
-                id="email"
-                name="email"
-                placeholder="Enter your email"
-                value={formik.values.email}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-              {formik.errors.email && formik.touched.email ? (
-                <ErrorMessage />
-              ) : (
-                ""
-              )}
-            </div>
+
+            <FormInput
+              label={"Email Address"}
+              startIcon={"bi bi-envelope me-2"}
+              type={"email"}
+              placeholder={"Enter your email"}
+              value={formik.values.email}
+              touched={formik.touched.email}
+              errors={formik.errors.email}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              name={"email"}
+              id={"email"}
+            />
 
             {/* Password */}
-            <div className="form-group mb-3">
-              <label htmlFor="password" className="form-label">
-                <i className="bi bi-lock me-2"></i>Password
-              </label>
-              <input
-                type="password"
-                className="form-control signup-input"
-                id="password"
-                name="password"
-                placeholder="Create a strong password"
-                value={formik.values.password}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-              {formik.errors.password && formik.touched.password ? (
-                <ErrorMessage />
-              ) : (
-                ""
-              )}
-            </div>
+
+            <FormInput
+              label={"Password"}
+              startIcon={"bi bi-lock me-2"}
+              type={"Password"}
+              placeholder={"Create a strong password"}
+              value={formik.values.password}
+              touched={formik.touched.password}
+              errors={formik.errors.password}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              name={"Password"}
+              id={"Password"}
+            />
 
             {/* Confirm Password */}
-            <div className="form-group mb-3">
-              <label htmlFor="confirm" className="form-label">
-                <i className="bi bi-lock-check me-2"></i>Confirm Password
-              </label>
-              <input
-                type="password"
-                className="form-control signup-input"
-                id="confirm"
-                name="rePassword"
-                placeholder="Confirm your password"
-                value={formik.values.rePassword}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-              {formik.errors.rePassword && formik.touched.rePassword ? (
-                <ErrorMessage />
-              ) : (
-                ""
-              )}
-            </div>
+
+            <FormInput
+              label={"Confirm Password"}
+              startIcon={"bi bi-lock me-2"}
+              type={"Password"}
+              placeholder={"Confirm your password"}
+              value={formik.values.rePassword}
+              touched={formik.touched.rePassword}
+              errors={formik.errors.rePassword}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              name={"rePassword"}
+              id={"confirm"}
+            />
 
             {/* Phone */}
-            <div className="form-group mb-4">
-              <label htmlFor="phone" className="form-label">
-                <i className="bi bi-telephone me-2"></i>Phone Number
-              </label>
-              <input
-                type="tel"
-                className="form-control signup-input"
-                id="phone"
-                name="phone"
-                placeholder="Enter your phone number"
-                value={formik.values.phone}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-              {formik.errors.phone && formik.touched.phone ? (
-                <ErrorMessage />
-              ) : (
-                ""
-              )}
-            </div>
 
-            <button type="submit" className="btn signup-btn w-100 mb-3">
-              <i className="bi bi-check-circle me-2"></i>Create Account
+            <FormInput
+              label={"Phone Number"}
+              startIcon={"bi bi-telephone me-2"}
+              type={"tel"}
+              placeholder={"Enter your phone number"}
+              value={formik.values.phone}
+              touched={formik.touched.phone}
+              errors={formik.errors.phone}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              name={"phone"}
+              id={"phone"}
+            />
+
+            <button
+              type="submit"
+              disabled={
+                !(formik.isValid && formik.dirty) || formik.isSubmitting
+              }
+              className="btn signup-btn w-100 mb-3"
+            >
+              {formik.isSubmitting ? (
+                <>
+                  <span className="spinner-border spinner-border-sm me-2"></span>
+                  Submitting...
+                </>
+              ) : (
+                <>
+                  <i className="bi bi-check-circle me-2"></i>
+                  Create Account
+                </>
+              )}
             </button>
 
             <p className="text-center signup-footer">
