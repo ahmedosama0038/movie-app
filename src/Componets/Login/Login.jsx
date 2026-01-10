@@ -10,7 +10,9 @@ import * as yup from "yup";
 
 import FormInput from "../Ui/FormInput/FormInput";
 import ErrorMessage from "../Error/ErrorMessage";
-import { useState } from 'react';
+import { useState } from "react";
+import { useContext } from "react";
+import { AuthContext } from "../../Context/AuthContext";
 
 const validPassword =
   /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[#?!@$%^&*-]).{8,}$/;
@@ -31,9 +33,8 @@ const signinSchema = yup.object({
 });
 
 export default function Login() {
-  
-const [ApiErrLogin, setApiErrLogin] = useState(null);
-
+  const [ApiErrLogin, setApiErrLogin] = useState(null);
+const {token , settoken}  =  useContext(AuthContext)
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -43,7 +44,7 @@ const [ApiErrLogin, setApiErrLogin] = useState(null);
 
     onSubmit: handalSubmit,
   });
-  console.log(formik);
+ 
 
   const navigate = useNavigate();
   async function handalSubmit(values) {
@@ -55,6 +56,8 @@ const [ApiErrLogin, setApiErrLogin] = useState(null);
 
       console.log("Response:", res.data);
       if (res.data.message === "success") {
+        settoken( res.data.token)
+        localStorage.setItem( 'token',res.data.token)
         toast.success("Account created successfully!");
         setTimeout(() => {
           navigate("/");
@@ -62,7 +65,7 @@ const [ApiErrLogin, setApiErrLogin] = useState(null);
       }
     } catch (error) {
       console.log("Error:", error.response?.data);
-      setApiErrLogin(error.response?.data?.message)
+      setApiErrLogin(error.response?.data?.message);
     }
   }
 
@@ -139,7 +142,7 @@ const [ApiErrLogin, setApiErrLogin] = useState(null);
                 </>
               )}
             </button>
-          { ApiErrLogin&& <ErrorMessage message={ApiErrLogin}/>}
+            {ApiErrLogin && <ErrorMessage message={ApiErrLogin} />}
             <p className="text-center signup-footer">
               Don't have an account?{" "}
               <a href="/login" className="signup-link">
