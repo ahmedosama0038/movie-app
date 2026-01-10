@@ -1,8 +1,15 @@
 import React from "react";
 import "./Navbar.css";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 
 export default function Navbar() {
+ const Navigate=  useNavigate()
+
+function handelLgout(){
+  localStorage.removeItem('token')
+Navigate('login')
+}
+
   return (
     <nav className="movie-navbar">
       <div className="container d-flex align-items-center justify-content-between">
@@ -107,6 +114,15 @@ export default function Navbar() {
                   </NavLink>
                 </li>
               </ul>
+            </li>
+            <li>
+               <button
+      onClick={handelLgout}
+      className="btn btn-outline-danger d-flex align-items-center gap-2"
+    >
+      <i className="bi bi-box-arrow-right"></i>
+      Logout
+    </button>
             </li>
           </ul>
         </div>
