@@ -145,7 +145,7 @@ const {token , settoken}  =  useContext(AuthContext)
             {ApiErrLogin && <ErrorMessage message={ApiErrLogin} />}
             <p className="text-center signup-footer">
               Don't have an account?{" "}
-              <a href="/login" className="signup-link">
+              <a href="/signup" className="signup-link">
                 Login here
               </a>
             </p>
