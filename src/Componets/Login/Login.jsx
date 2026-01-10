@@ -146,7 +146,7 @@ const {token , settoken}  =  useContext(AuthContext)
             <p className="text-center signup-footer">
               Don't have an account?{" "}
               <Link to="/signup" className="signup-link">
-                Login here
+                signup here
               </Link>
             </p>
           </form>

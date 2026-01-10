@@ -11,6 +11,7 @@ import MovieDitaels from "./Componets/MovieDitaels/MovieDitaels";
 import NotFound from "./Componets/NotFound/NotFound";
 import AuthProvider from "./Context/AuthContext";
 import ProdectedRout from "./prodectedRout/ProdectedRout";
+import AuthROUR from "./AuthRout/AuthROUR";
 
 function App() {
   const router = createBrowserRouter([
@@ -27,8 +28,23 @@ function App() {
             </ProdectedRout>
           ),
         },
-        { path: "/login", element: <Login /> },
-        { path: "/signup", element: <Signup /> },
+        {
+          path: "/login",
+          element: (
+            <AuthROUR>
+              {" "}
+              <Login />
+            </AuthROUR>
+          ),
+        },
+        {
+          path: "/signup",
+          element: (
+            <AuthROUR>
+              <Signup />{" "}
+            </AuthROUR>
+          ),
+        },
         {
           path: "/movie/:id",
           element: (
