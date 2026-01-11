@@ -63,7 +63,11 @@ export default function Navbar() {
                   Signup
                 </NavLink>
               </li>
+            </ul>
+          )}
 
+          {token && (
+            <ul className=" list-unstyled d-flex  justify-content-center align-content-center">
               <li className="dropdown ms-md-2 mt-2 mt-md-0">
                 <NavLink
                   to="/trending"
@@ -120,11 +124,6 @@ export default function Navbar() {
                   </li>
                 </ul>
               </li>
-            </ul>
-          )}
-
-          {token && (
-            <ul className=" list-unstyled">
               <li>
                 <button
                   onClick={handleLogout}
